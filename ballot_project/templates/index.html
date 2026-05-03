@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>E-Ballot Portal</title>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex items-center justify-center p-6">
+    <div class="bg-slate-800 border-t-4 border-blue-500 p-10 rounded-2xl shadow-2xl w-full max-w-md">
+        <h1 class="text-3xl font-black mb-2 text-center">SECURE VOTE</h1>
+        <p class="text-blue-400 text-center text-xs tracking-widest uppercase mb-8">Blockchain-Ready Protocol</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="p-3 mb-6 rounded text-center text-sm font-bold {% if category == 'success' %}bg-green-600{% else %}bg-red-600{% endif %}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form action="/cast_vote" method="POST" class="space-y-6">
+            <input type="text" name="voter_id" placeholder="Enter National ID Number" required
+                class="w-full bg-slate-700 p-4 rounded-lg border border-slate-600 focus:border-blue-500 outline-none transition">
+            
+            <div class="space-y-2">
+                {% for name in candidates %}
+                <label class="flex items-center p-4 bg-slate-700 rounded-lg cursor-pointer hover:bg-slate-600 border border-transparent hover:border-blue-400">
+                    <input type="radio" name="candidate" value="{{ name }}" class="w-5 h-5 accent-blue-500" required>
+                    <span class="ml-4 font-semibold text-lg">{{ name }}</span>
+                </label>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black text-lg transition shadow-lg">
+                AUTHENTICATE & CAST VOTE
+            </button>
+        </form>
+    </div>
+</body>
+</html>
